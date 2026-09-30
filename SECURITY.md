@@ -1,14 +1,9 @@
 # Security and privacy
 
-Do not post credentials or sensitive source in public issues. Use GitHub's private vulnerability reporting if enabled; otherwise contact the maintainer before sharing sensitive details.
+The browser edition reads pasted source locally and runs downloaded model weights in a browser worker. It does not execute code, follow pasted links or upload prompts to a model service. Local model caches are separate from app inputs. Refresh clears the displayed input/result; exported files contain them.
 
-- Code and documentation are treated as text, never executed. URLs in submitted content are not fetched.
-- Public web requests require the visitor's OpenAI API key. There is no owner-key fallback.
-- The browser holds the key in React memory. Refreshing, closing the tab, or Disconnect removes the app's reference. There is no localStorage, sessionStorage, history database, or analytics integration.
-- The web server forwards source and the key to OpenAI. Application code does not persist or log them. Hosting infrastructure and OpenAI have their own policies; `store: false` is not a promise of zero provider retention.
-- Requests are limited to 12,000 source characters, a 60 KB request body, 3,600 output tokens, and a 60-second provider timeout. Cancellation is best effort and does not guarantee reversal of API charges.
-- Common API-key and private-key patterns are rejected. This is a limited check, not a comprehensive secret scanner: remove sensitive data yourself.
-- AI output is rendered as text. Explanations can be incorrect or omit important context. Validate against code and official documentation.
-- MCP uses stdio and a local environment key. It has no shell, file-reading, code execution, or URL-fetching tool. The optional CLI reads only the file explicitly supplied by the user.
+Public hosts supply pinned SDK code, model weights and model runtime files. They and the site host may receive IP addresses and normal request metadata. No analytics or saved explanation history is added by this migration. Never treat a model's explanation as proof of safe code.
 
-If a key is exposed, revoke it in OpenAI Platform and create a replacement. Never commit `.env.local` or use a browser-exposed environment variable for an operator key.
+The retired explanation HTTP endpoint returns 410. No operator or visitor key is used by the website. Legacy Node provider adapters are separate from the website and require their own explicit configuration.
+
+Report reproducible security issues privately to the repository owner before public disclosure. Include the affected version, expected/observed behavior and bounded evidence without credentials or private source.

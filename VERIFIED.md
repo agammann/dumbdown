@@ -1,3 +1,9 @@
+# Browser migration verification
+
+September 30, 2026: Seven existing automated checks, TypeScript checking and the production build passed locally. A real WebGPU browser run with Qwen 3 1.7B explained the array-map doubling example correctly, including `[2, 4, 6]`. Network capture recorded no paid provider requests or prompt POSTs. This is a synthetic functional check on one laptop, not a model accuracy benchmark or proof of support on all devices.
+
+The following ledger records the earlier provider edition; its credential requirements and provider test results do not describe the current browser website.
+
 # Verification
 
 Verified locally on September 19, 2026 (Pacific time).

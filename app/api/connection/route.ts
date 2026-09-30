@@ -1,7 +1,3 @@
-import { localDevelopmentKey } from "../../../lib/local-key";
-export function GET(request: Request) {
-  return Response.json(
-    { local: !!localDevelopmentKey(request) },
-    { headers: { "Cache-Control": "no-store" } },
-  );
+export function GET() {
+  return Response.json({ local: false, browser: true, paidInference: false }, { headers: { "Cache-Control": "no-store" } });
 }
