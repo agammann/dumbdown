@@ -5,10 +5,8 @@ import {
   ArrowRight,
   BookOpen,
   Braces,
-  ChevronDown,
   Code2,
   ExternalLink,
-  KeyRound,
   Lightbulb,
   LoaderCircle,
   ShieldCheck,
@@ -47,7 +45,7 @@ export default function Home() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [showConnect, setShowConnect] = useState(false);
-  const [webmcp, setWebmcp] = useState(false);
+  const [, setWebmcp] = useState(false);
   const [changed, setChanged] = useState(false);
   const controller = useRef<AbortController | null>(null);
   const pending = useRef(false);
