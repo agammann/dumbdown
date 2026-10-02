@@ -8,6 +8,8 @@ Optional hosted mode requires an explicit choice, a visitor-supplied key and the
 
 The app keeps credentials only in the open page and active request. Clear key, Cancel, device mode, reload, page exit and restored-page lifecycle handling clear the key and consent. Cancellation cannot undo an already processed provider request or its charge. The app does not write keys, source or explanations to browser storage, cookies, an application database or its own request logs. Infrastructure and provider systems may have separate logging policies. No analytics or saved explanation history is added.
 
+The public hosting platform may set visitor and security cookies. These are separate from the app's source, explanation and key handling.
+
 Reload restores the sample. Markdown exports contain the explanation and generated example, which may repeat input details; they do not include a separate copy of the original source. Handle exports according to the sensitivity of that content.
 
 The retired `/api/explain` HTTP endpoint returns 410. Legacy Node CLI/MCP adapters are separate and retain their explicit local configuration. Native WebMCP uses the same web workflow and cannot supply an API key through its input schema.
