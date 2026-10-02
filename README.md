@@ -1,34 +1,51 @@
 # dumbdown
 
-Less jargon. More understanding. Explain code and technical documentation with a big idea, analogy, walkthrough, terms, example and caveats.
+Less jargon. More understanding. Paste code or technical documentation and get a big idea, analogy, walkthrough, terms, example and caveats at your preferred reading level.
 
 [Open dumbdown](https://dumbdown.alx21.chatgpt.site)
 
-## Browser edition
+## Try it
 
-Paste code or documentation, choose a reading level, and select **Dumb it down**. The model downloads on first use. No account, API key or paid AI API is needed. Copy or export the result as Markdown. The initial debounce explanation remains a hand-written example.
+1. Start with the included debounce example, or paste your own code or documentation. Remove secrets first; the app accepts at most 12,000 characters and rejects longer input without cutting it down.
+2. Choose a reading level and explanation mode.
+3. Select **Dumb it down**, then compare the explanation with your source. Copy or download it as Markdown.
 
-The first run downloads model files from public hosts. Text generation runs in a dedicated browser worker using WebLLM; prompts are not sent to a hosted model. The default is Qwen 3 1.7B, with larger Qwen 3 4B and smaller Llama 3.2 1B choices. Model downloads are cached when browser storage permits.
+The initial explanation is a labeled, hand-written sample. Generated explanations can be wrong in either mode. Code is never executed and pasted links are not fetched.
 
-Use HTTPS (or localhost) and a current browser with WebGPU and compatible graphics hardware. A model choice does not guarantee that every device has enough memory. Download speed, inference speed and answer quality depend on the device and model. Stop a download or generation from the interface; errors preserve existing inputs. There is no paid model fallback. Hosting and model-download bandwidth remain separate from AI API fees.
+## Choose a mode
 
-Code is never executed and pasted links are not fetched. Inputs and results stay in the page until refreshed; exports contain the input. Browser explanations can be wrong, so compare them with the source. Hosting and model hosts may process ordinary request metadata. The retired `/api/explain` route returns 410 and does not invoke a provider, including when an old operator key is present.
+**On this device · experimental** is the default. It downloads a model on first use and runs inference in a dedicated browser worker through WebLLM. No account, API key or paid model service is needed. Prompts stay on the device. Qwen 3 1.7B is the default; Qwen 3 4B and Llama 3.2 1B are also available. These small models missed basic return values, sorting behavior and documentation conditions in our checks—even the larger choice. Use this mode to experiment, and verify its claims yourself.
+
+Device mode needs HTTPS or localhost, WebGPU, compatible graphics hardware and enough memory. Downloads range from roughly 1 GB to over 2 GB for the tested models and can be cached when browser storage permits. Stop a download or generation from the interface. After cancelling generation, the app reloads the cached model for a fresh attempt. Support, speed and quality vary by device. There is no automatic paid fallback.
+
+**OpenAI · your API key** is optional. Choose it, enter your own OpenAI API key, and confirm the data and billing notice. Requests use GPT-5.4 through this site's server. Your complete submitted source, content type and reading level go to OpenAI, and your API account pays for usage. A ChatGPT subscription does not include API credit. [Manage your API keys](https://platform.openai.com/api-keys).
+
+The key is kept only in the open page and the active request. **Clear key**, **Cancel**, returning to device mode, reloading or leaving the page clears the key and consent. Nothing is sent until you request an explanation with the button or a native WebMCP action. Cancellation stops waiting; a provider may already have processed and charged for the request. Hosted explanations also need review. There is no operator-key fallback.
+
+The app does not save source, keys or explanations in browser storage or an application database. Reload restores the sample. Downloaded model files are separate browser caches. Markdown exports contain the explanation and its generated example, which can repeat input details, but do not include a separate copy of the original source; save it separately if needed. Hosting, model hosts and the provider can process request metadata under their own policies. See [SECURITY.md](SECURITY.md).
 
 ## Local development
 
-Requires Node.js 22.13+ and npm. Run `npm ci`, then `npm run dev`, and open the printed localhost URL. No `.env.local` key is needed. Run `npm test`, `npm run typecheck` and `npm run build` for checks.
+Requires Node.js 22.13+ and npm:
 
-The web app uses React, TypeScript and Vinext/Vite. Browser model files are lazy-loaded from pinned public SDK URLs. `lib/browser-model.mjs` manages model selection, support checks, progress and cancellation; `public/browser-model-worker.mjs` hosts inference.
+```sh
+npm ci
+npm run dev
+```
 
-## WebMCP and earlier Node tools
+Open the printed localhost URL. No `.env.local` or operator API key is needed. For optional hosted mode, enter your own key in the page. Run `npm test`, `npm run typecheck`, `npm run lint` and `npm run build` before submitting changes.
 
-In browsers implementing native `document.modelContext`, `dumbdown_explain` uses the same local generation, input validation and visible result as the button. Other browsers use the normal UI. There is no simulated WebMCP support.
+The web app uses React, TypeScript and Vinext/Vite. `lib/browser-model.mjs` manages the browser model and cancellation; `public/browser-model-worker.mjs` hosts local inference. `lib/explanation-instructions.mjs` supplies the web modes' instructions. `lib/visitor-explanation.mjs` validates the optional hosted request, uses a fixed provider/model, bounds request and response sizes, and sanitizes errors. The retired `/api/explain` endpoint still returns 410; optional hosted requests use `/api/explain/visitor`.
 
-The separate Node CLI and stdio MCP scripts are retained as legacy provider adapters. They are not used by this website and are not browser inference entry points. Their old provider tests use fixtures; those tests do not establish browser model quality. Use the web app or its native WebMCP action for the no-paid-API workflow.
+## Native WebMCP and earlier Node tools
+
+In browsers implementing native `document.modelContext`, `dumbdown_explain` uses the same selected mode, validation and visible result as the button. Hosted use requires the visitor to set their key and consent in the page first. Other browsers use the normal UI. Native support is experimental and may require browser feature flags; there is no simulated compatibility layer.
+
+The separate Node CLI and stdio MCP scripts remain legacy provider adapters and are not used by this website. Their configuration and provider behavior are unchanged. Their fixture tests do not establish the web models' factual accuracy. Use the web app or its native WebMCP action for the browser workflow.
 
 ## Verification and limitations
 
-The browser migration is checked separately from the historical provider implementation. See [VERIFIED.md](VERIFIED.md). Matching a schema does not establish factual correctness. Long inputs can exceed the browser model context and produce a visible error.
+See [VERIFIED.md](VERIFIED.md) for dated checks and observed model failures. Valid JSON, a working button or a registered browser tool does not establish a correct explanation. A 12,000-character input can still exceed a browser model's token context; the app reports that limit instead of silently dropping input. No physical-device compatibility or general accuracy guarantee is made.
 
 ## License
 
