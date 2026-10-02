@@ -22,7 +22,7 @@ This is a small functional evaluation, not an accuracy benchmark. No general cor
 
 ### Application checks
 
-- Eleven automated tests passed, including the legacy stdio MCP handshake and new visitor-route validation, fixed provider/model selection, bounded bodies, sanitized failures, redirect prevention, no retry and cancellation during a response stream.
+- Twelve automated tests passed, including the legacy stdio MCP handshake, embedded Markdown fences, and new visitor-route validation, fixed provider/model selection, bounded bodies, sanitized failures, redirect prevention, no retry and cancellation during a response stream.
 - TypeScript, ESLint and the production build passed.
 - Native `document.modelContext.registerTool` and actual `executeTool` worked with Chrome's experimental WebMCP features enabled. The hosted sorting result used the same route and visible result as the button. Ordinary browsers can use the button without native support.
 - Browser checks covered explicit mode/key/consent, unchanged full input, safe text rendering, no silent truncation above 12,000 characters, blocked edits while pending, and preservation of the previous-result notice after failures.
@@ -33,6 +33,12 @@ This is a small functional evaluation, not an accuracy benchmark. No general cor
 - Markdown exports contain the explanation and generated example. They do not include a separate copy of the original source; the README and privacy documentation now say so.
 
 Local verification is separate from deployment. Model files can remain in browser caches; hosted-mode empty-storage checks do not apply after downloading a local model.
+
+### Production follow-up
+
+One real request on the published optional-mode build preserved the missing-return behavior and the separately labeled promise-chain correction. Seventeen loaded browser assets matched its local build. Missing-key, retired-route, private-file, credential-clearing, real back/forward-cache and mobile-layout checks passed. Browser application storage stayed empty; the hosting platform set visitor/security cookies.
+
+That production response exposed an export formatting defect: an example's own code fences could close the surrounding Markdown fence. The exporter now selects a longer outer fence while preserving the full example. The captured response was replayed for export verification, without another paid inference request, and the downloaded Markdown was parsed to check its code block and following sections.
 
 ## Earlier verification
 

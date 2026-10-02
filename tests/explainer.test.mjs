@@ -114,3 +114,13 @@ test("cancellation returns a clear message", async () => {
     /cancelled/,
   );
 });
+
+test("Markdown examples preserve embedded code fences and following sections", () => {
+  const example = "Original behavior:\n```js\nconsole.log(undefined);\n```\n\nMinimal correction:\n```js\nreadUser().then(user => console.log(user));\n```";
+  for (const [value, fence] of [[example, "````"], ["A longer run: ``````\nA second line.", "```````"]]) {
+    const markdown = toMarkdown({ ...result, example: value });
+    const block = markdown.split("## Example\n\n")[1].split("\n\n## Keep in mind")[0];
+    assert.equal(block, `${fence}text\n${value}\n${fence}`);
+    assert.match(markdown, /\n## Keep in mind\n- Inputs are not checked\./);
+  }
+});
