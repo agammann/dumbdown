@@ -40,7 +40,8 @@ async function route(request: Request, env: Environment) {
     if (request.method !== "GET" && request.method !== "HEAD") return new Response(null, { status: 405 });
 
     // Assets own HTML redirects, cache policy and unknown-route 404s.
-    // public/_headers applies the same security policy when assets bypass us.
+    // Route assets through this Worker so the response policy below also
+    // applies on hosts that do not interpret public/_headers.
     return env.ASSETS.fetch(request);
 }
 
