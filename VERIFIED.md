@@ -1,5 +1,23 @@
 # Verification
 
+## October 3, 2026 — native Vite toolchain
+
+The single-page app now uses a prerendered React page and an explicit Cloudflare Worker instead of the Next/Vinext/RSC toolchain. The three API handlers, model and prompt modules, export logic and legacy CLI/MCP adapters are unchanged. Unknown paths return 404; `/index.html` redirects to `/`. API trailing-slash aliases remain supported.
+
+- Eighteen automated tests, TypeScript, zero-warning ESLint and the production build passed. The locked dependency audit returned zero findings at all severity levels at the time of the check. This is a dependency audit, not proof that the application has no vulnerabilities.
+- A clean Windows install through `npm run install:ci` passed. The independent deployment checkout produced the same five deployment files and five public asset bodies. Offline Drizzle migration generation also passed; no database was contacted or changed.
+- The compiled local Worker passed 203 HTTP/browser checks with Chrome 154.0.8037.98. Checks covered API methods and validation, prerendered HTML, exact static assets and four security headers on pages, APIs and assets.
+- Chrome's genuine native WebMCP discovery and execution passed with its experimental feature enabled. Invalid input made no request. The tool disappeared on navigation away and was rediscovered after an actual persisted BFCache return and reload.
+- Input limits, key/consent guards, safe text rendering, cancellation, pending-state controls, stale-result notices, Markdown code fences and credential clearing passed. Browser application storage remained empty. Desktop, 390px and 320px screenshots were inspected without horizontal overflow.
+
+The browser's four hosted responses in this regression were controlled fixtures intercepted before reaching the application server. No provider key, model download or new inference request was used. These checks establish wiring and lifecycle behavior; the dated model-quality results below remain the available evidence.
+
+An earlier compiled-preview run exposed a Wrangler/Miniflare transport failure after an early response to a body-bearing POST: the following request could return 500 with an unread-stream diagnostic. Empty-body routing probes passed. The failed run is retained; the local transport issue is not claimed fixed.
+
+Production checks initially found the four security headers missing from the homepage and static assets, despite the local checks passing. The final production build embeds the five public asset bodies in the Worker so its response policy also covers the page and assets. The earlier failed deployments remain in the test record.
+
+The corrected public deployment passed 31 credential-free HTTP requests and 115 assertions. Checks confirmed the expected page and exact asset bytes, all four security headers, API methods and validation, OPTIONS and private-path rejection. All five body-bearing guard requests and their subsequent method/connection checks passed; the local unread-stream failure was not reproduced there. These rejected requests used no provider key or model inference. Conditional asset requests are also covered by the automated ETag tests; no general HTTP feature-parity claim follows.
+
 ## October 2, 2026 — optional hosted mode and browser fixes
 
 Checks used a local production Worker build on Windows with Chrome 154.0.8037.95 and AMD RDNA 3 WebGPU. Expected facts and forbidden interpretations for three synthetic English examples were frozen before inference. The two JavaScript examples were independently executed in a controlled test harness to establish their output. The app itself never executes pasted code.
