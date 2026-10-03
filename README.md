@@ -33,9 +33,9 @@ npm ci
 npm run dev
 ```
 
-Open the printed localhost URL. No `.env.local` or operator API key is needed. For optional hosted mode, enter your own key in the page. Run `npm test`, `npm run typecheck`, `npm run lint` and `npm run build` before submitting changes.
+Open the printed localhost URL. No `.env.local` or operator API key is needed. For optional hosted mode, enter your own key in the page. Run `npm test`, `npm run typecheck`, `npm run lint`, `npm run build` and `npm run audit:ci` before submitting changes.
 
-The web app uses React, TypeScript and Vinext/Vite. `lib/browser-model.mjs` manages the browser model and cancellation; `public/browser-model-worker.mjs` hosts local inference. `lib/explanation-instructions.mjs` supplies the web modes' instructions. `lib/visitor-explanation.mjs` validates the optional hosted request, uses a fixed provider/model, bounds request and response sizes, and sanitizes errors. The retired `/api/explain` endpoint still returns 410; optional hosted requests use `/api/explain/visitor`.
+The web app uses React, TypeScript and Vite with a Cloudflare Worker. The initial page is prerendered, then hydrated in the browser; the Worker serves the three explicit API routes and rejects unknown paths. `lib/browser-model.mjs` manages the browser model and cancellation; `public/browser-model-worker.mjs` hosts local inference. `lib/explanation-instructions.mjs` supplies the web modes' instructions. `lib/visitor-explanation.mjs` validates the optional hosted request, uses a fixed provider/model, bounds request and response sizes, and sanitizes errors. The retired `/api/explain` endpoint still returns 410; optional hosted requests use `/api/explain/visitor`.
 
 ## Native WebMCP and earlier Node tools
 
