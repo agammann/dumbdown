@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
@@ -225,12 +224,17 @@ export default function Home() {
   return (
     <div className="app-shell">
       <header className="site-header">
-        <Link className="brand" href="/" aria-label="dumbdown home">
+        <a className="brand" href="/" aria-label="dumbdown home" onClick={(event) => {
+          if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          event.preventDefault();
+          window.history.pushState(null, "", "/");
+          window.scrollTo(0, 0);
+        }}>
           <span className="brand-mark">
             <Code2 size={24} />
           </span>
           dumbdown<span className="brand-period">.</span>
-        </Link>
+        </a>
         <nav aria-label="Main navigation">
           <button
             className={!showConnect ? "nav-link active" : "nav-link"}
