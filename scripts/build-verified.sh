@@ -24,3 +24,5 @@ timeout \
   --kill-after="${SITES_BUILD_KILL_AFTER:-10s}" \
   "${SITES_BUILD_TIMEOUT:-3m}" \
   "${vite}" build
+
+node "${SITES_PROJECT_ROOT}/build/worker-assets.mjs"
