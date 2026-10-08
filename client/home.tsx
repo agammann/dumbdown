@@ -1,5 +1,7 @@
-import { hydrateRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import Home from "../app/page";
 import "../app/globals.css";
 
-hydrateRoot(document.getElementById("dumbdown-root")!, <Home />);
+const root = document.getElementById("dumbdown-root")!;
+if (root.firstElementChild) hydrateRoot(root, <Home />);
+else createRoot(root).render(<Home />);

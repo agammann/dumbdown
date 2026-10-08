@@ -8,7 +8,7 @@ try {
 } catch (e) {
   if (e.code !== "ENOENT") throw e;
 }
-const server = new McpServer({ name: "dumbdown", version: "0.1.0" });
+const server = new McpServer({ name: "dumbdown", version: "1.0.0" });
 server.registerTool(
   "dumbdown_explain",
   {
@@ -31,7 +31,7 @@ server.registerTool(
       const result = await explain(input, {
         apiKey: process.env.OPENAI_API_KEY,
         signal: extra.signal,
-        model: process.env.OPENAI_MODEL || "gpt-5-mini",
+        model: process.env.OPENAI_MODEL || "gpt-5.4",
       });
       return {
         content: [{ type: "text", text: toMarkdown(result) }],

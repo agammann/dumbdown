@@ -1,5 +1,27 @@
 # Verification
 
+## October 7, 2026 — version 1 source checks
+
+The initial browser choice is now GPT-5.4 hosted mode. Opening the page does not send an explanation request: a visitor key, explicit consent and a submitted button/tool action are required. The CLI and stdio MCP server use the same instructions and GPT-5.4 default. Local model choices remain experimental.
+
+Windows checks used Node.js 24.19.0 and Chrome 155.0.8059.12 on AMD RDNA 3 WebGPU with shader-f16. Twenty unit tests, TypeScript, ESLint, the compiled Worker build and the locked dependency audit passed; the audit returned zero findings. The source's ordinary browser regression passed ten grouped checks and genuine native WebMCP passed eleven. These browser regression responses were controlled fixtures, covering initial credential/consent gates, exact input, rendering, an actual Markdown download, cancellation, stale-result labeling, key clearing, both remaining model selections and 1440/390/320px layouts. The checks use the real browser API rather than a compatibility mock.
+
+Three synthetic inputs and their expected/forbidden facts were frozen before real inference. The two JavaScript examples were separately executed in a controlled harness to confirm their outputs. Actual GPT-5.4 requests then passed these narrow quality checks:
+
+| Interface and example | Observed result |
+| --- | --- |
+| CLI, missing return around fetch | Explained that fetch starts, the outer function and console return undefined, and returning the promise chain permits receiving parsed data later. |
+| Stdio MCP, conditional API documentation | Preserved inclusive integer limits, cursor continuation/null stop, Retry-After seconds, conditional bounded backoff, no automatic 401/403 retries, and unspecified authentication/quota. |
+| Native browser tool through the actual hosted route, default sort | Explained string ordering `[1, 10, 2]`, mutation, the same returned reference and `true`; numeric ordering was a separately labeled comparator change. The page rendered the result and downloaded Markdown. |
+
+These are three English examples, not a general accuracy guarantee. Their CLI, stdio protocol and hosted route were real; their responses were not substituted fixtures. The key was cleared after the browser call.
+
+Actual device downloads and generations were also checked once per then-offered choice. Qwen 3 1.7B and 4B loaded and produced structured explanations, but both gave wrong array identity/sorting claims on the default-sort example. First-download cancellation, default-model generation cancellation and its cached retry worked. Llama 3.2 1B downloaded but exhausted the output limit on that four-line input; its failed run is retained and it is no longer offered in v1. The two Qwen choices remain visibly experimental. No further quality retries were used to replace those failures.
+
+Four body-bearing early rejection requests returned 403, 401, 410 and 404 as expected, and each subsequent connection request returned 200 in the current local compiled Worker. These probes did not reproduce the historical local transport issue described below; they do not establish every transport case. All owned test browsers and Workers were stopped after the checks.
+
+The source package includes the MIT license, third-party notices, exact lockfile, browser and Node tools, and setup/recovery instructions. A fresh ZIP consumer check also exposed a development-page rendering error: the client tried to hydrate an empty HTML root. The entrypoint now renders an empty development root normally and hydrates only prerendered markup. Published-release byte checks and Linux workflow results are separate from these dated Windows/model observations; use the release's workflow and checksums for the final artifact.
+
 ## October 3, 2026 — native Vite toolchain
 
 The single-page app now uses a prerendered React page and an explicit Cloudflare Worker instead of the Next/Vinext/RSC toolchain. The three API handlers, model and prompt modules, export logic and legacy CLI/MCP adapters are unchanged. Unknown paths return 404; `/index.html` redirects to `/`. API trailing-slash aliases remain supported.

@@ -1,9 +1,9 @@
 {
   "name": "dumbdown",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=22.13.0"
+    "node": ">=24"
   },
   "scripts": {
     "install:ci": "node scripts/install-ci.mjs",
@@ -16,12 +16,15 @@
     "mcp": "node scripts/mcp.mjs",
     "explain": "node scripts/explain.mjs",
     "typecheck": "tsc --noEmit",
-    "audit:ci": "npm audit --audit-level=moderate"
+    "audit:ci": "npm audit --audit-level=moderate",
+    "test:e2e": "node scripts/check-browser.mjs",
+    "test:webmcp": "node scripts/check-browser.mjs --native",
+    "package:source": "node scripts/package-release.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
     "@hookform/resolvers": "^5.7.1",
-    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "@shadcn/react": "^0.3.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
@@ -68,12 +71,16 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.59.3",
     "vite": "8.3.2",
-    "wrangler": "4.146.0"
+    "wrangler": "4.146.0",
+    "playwright": "1.63.0"
   },
   "type": "module",
   "overrides": {
     "@esbuild-kit/core-utils": {
       "esbuild": "0.25.12"
-    }
-  }
+    },
+    "sharp": "0.35.5",
+    "source-map-js": "1.2.2"
+  },
+  "license": "MIT"
 }

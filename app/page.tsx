@@ -47,10 +47,10 @@ export default function Home() {
   const [showConnect, setShowConnect] = useState(false);
   const [, setWebmcp] = useState(false);
   const [changed, setChanged] = useState(false);
-  const [mode, setMode] = useState<"device" | "hosted">("device");
+  const [mode, setMode] = useState<"device" | "hosted">("hosted");
   const [consent, setConsent] = useState(false);
   const keyInput = useRef<HTMLInputElement>(null);
-  const preferences = useRef({ mode: "device" as "device" | "hosted", consent: false });
+  const preferences = useRef({ mode: "hosted" as "device" | "hosted", consent: false });
   const controller = useRef<AbortController | null>(null);
   const pending = useRef(false);
   const revision = useRef(0);
