@@ -40,7 +40,9 @@ test("sends source as data, requests schema and disables response storage", asyn
         assert.equal(body.text.format.strict, true);
         assert.equal(JSON.parse(body.input).source, source);
         assert.match(body.instructions, /untrusted data/);
-        assert.equal(body.max_output_tokens, 3600);
+        assert.equal(body.max_output_tokens, 12000);
+        assert.equal(body.model, "gpt-5.4");
+        assert.equal(options.redirect, "manual");
         return Response.json({
           status: "completed",
           output: [
@@ -123,4 +125,20 @@ test("Markdown examples preserve embedded code fences and following sections", (
     assert.equal(block, `${fence}text\n${value}\n${fence}`);
     assert.match(markdown, /\n## Keep in mind\n- Inputs are not checked\./);
   }
+});
+
+test("provider output cannot expose the configured key or exceed the response bound", async () => {
+  for (const response of [
+    Response.json({ status: "completed", output: [{ content: [{ type: "output_text", text: JSON.stringify({ ...result, summary: key }) }] }] }),
+    new Response("x".repeat(1024 * 1024 + 1)),
+  ]) {
+    await assert.rejects(explain(input, { apiKey: key, fetchImpl: async () => response }), error => !error.message.includes(key));
+  }
+});
+
+test("cancellation interrupts provider response reading", async () => {
+  const abort = new AbortController();
+  const request = explain(input, { apiKey: key, signal: abort.signal, fetchImpl: async () => new Response(new ReadableStream({ start(controller) { controller.enqueue(new TextEncoder().encode('{')); } })) });
+  setTimeout(() => abort.abort(), 10);
+  await assert.rejects(request, /cancelled/);
 });

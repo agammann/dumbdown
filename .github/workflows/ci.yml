@@ -1,16 +1,22 @@
 name: Verify
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
 permissions:
   contents: read
+concurrency:
+  group: dumbdown-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: '22'
+          node-version: '24.19.0'
           cache: npm
       - name: Select managed Linux execution profile
         run: |
@@ -22,3 +28,38 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm run audit:ci
+      - run: npx playwright install --with-deps chromium chrome
+      - run: npm run test:e2e
+      - run: npm run test:webmcp
+      - run: npm run package:source
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dumbdown-release
+          path: release-artifacts/
+          if-no-files-found: error
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: browser-checks
+          path: test-results/
+  publish:
+    needs: verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: dumbdown-release
+          path: release-artifacts
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+        with:
+          script: |
+            const { default: publish } = await import(process.env.GITHUB_WORKSPACE + '/scripts/release.mjs');
+            await publish({ github, context, core });
