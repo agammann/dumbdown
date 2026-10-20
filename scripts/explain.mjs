@@ -1,6 +1,6 @@
-import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { explain, toMarkdown } from "../lib/explainer.mjs";
+import { readLocalSource } from "../lib/local-source.mjs";
 try {
   process.loadEnvFile(fileURLToPath(new URL("../.env.local", import.meta.url)));
 } catch (e) {
@@ -18,12 +18,7 @@ if (filename === "--help" || filename === "-h") {
   process.exitCode = 1;
 } else {
   try {
-    const stat = await fs.stat(filename);
-    if (stat.size > 60000)
-      throw Error(
-        "File is too large. Use a snippet of at most 12,000 characters.",
-      );
-    const source = await fs.readFile(filename, "utf8");
+    const source = await readLocalSource(filename);
     const result = await explain(
       { source, kind, level },
       {
