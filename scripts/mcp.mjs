@@ -8,7 +8,7 @@ try {
 } catch (e) {
   if (e.code !== "ENOENT") throw e;
 }
-const server = new McpServer({ name: "dumbdown", version: "1.0.0" });
+const server = new McpServer({ name: "dumbdown", version: "1.0.1" });
 server.registerTool(
   "dumbdown_explain",
   {
