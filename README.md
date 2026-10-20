@@ -2,7 +2,7 @@
 
 Less jargon. More understanding. Explain code or technical documentation with a big idea, analogy, walkthrough, terms, example and caveats at your chosen reading level.
 
-[Open dumbdown](https://dumbdown.alx21.chatgpt.site) · [Download v1 source](https://github.com/agammann/dumbdown/releases/tag/v1.0.0) · [Verification](VERIFIED.md)
+[Open dumbdown](https://dumbdown.alx21.chatgpt.site) · [Download v1 source](https://github.com/agammann/dumbdown/releases/tag/v1.0.1) · [Verification](VERIFIED.md)
 
 ## Start in the browser
 
@@ -27,10 +27,10 @@ The browser app does not save source, keys or explanations in browser storage or
 
 ## Install the source
 
-Use Node.js **24** and npm. Download `dumbdown_1.0.0_source.zip` and `SHA256SUMS` from Releases, verify the ZIP's SHA256, and extract it into a new folder. On Windows:
+Use Node.js **24** and npm. Download `dumbdown_1.0.1_source.zip` and `SHA256SUMS` from Releases, verify the ZIP's SHA256, and extract it into a new folder. On Windows:
 
 ```powershell
-Get-FileHash .\dumbdown_1.0.0_source.zip -Algorithm SHA256
+Get-FileHash .\dumbdown_1.0.1_source.zip -Algorithm SHA256
 ```
 
 From the extracted root:

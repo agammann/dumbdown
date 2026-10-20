@@ -4,12 +4,12 @@ import crypto from "node:crypto";
 
 const publish = async ({ github, context, core }) => {
   if (
-    context.eventName !== "push" ||
+    context.eventName !== "workflow_dispatch" ||
     context.ref !== "refs/heads/main" ||
     !/^[0-9a-f]{40}$/.test(context.sha)
   ) {
     throw new Error(
-      "Publishing requires a main push with an exact commit SHA.",
+      "Publishing requires a manual run on main with an exact commit SHA.",
     );
   }
   const metadata = JSON.parse(fs.readFileSync("package.json", "utf8"));
@@ -87,7 +87,9 @@ const publish = async ({ github, context, core }) => {
     }
     return commit;
   };
-  await requireCorrectTag();
+  if ((await requireCorrectTag()) !== context.sha) {
+    throw new Error("Create and verify the exact version tag before dispatching publication.");
+  }
 
   const directory = "release-artifacts";
   const filenames = fs.readdirSync(directory).sort();
@@ -267,16 +269,7 @@ const publish = async ({ github, context, core }) => {
   ) {
     throw new Error("Draft changed during upload; publication stopped.");
   }
-  // Create the tag at the checked commit explicitly; target_commitish cannot move an existing tag.
   await requireCurrentHead();
-  if ((await requireCorrectTag()) === null) {
-    await github.rest.git.createRef({
-      owner,
-      repo,
-      ref: "refs/tags/" + tag,
-      sha: context.sha,
-    });
-  }
   if ((await requireCorrectTag()) !== context.sha) {
     throw new Error("Release tag is missing before publication.");
   }
