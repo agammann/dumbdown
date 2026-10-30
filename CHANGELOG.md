@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2
+
+Refresh a locked server dependency to its compatible maintenance release.
+
 ## 1.0.1
 
 Read the caller-selected source through one bounded file handle and reject files that change before the provider request. Verify the exact release tag before publishing a new source ZIP. The user still chooses which local file to send to the configured provider.
