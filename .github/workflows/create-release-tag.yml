@@ -1,0 +1,36 @@
+name: Create verified release tag
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Existing package version (for example 1.0.3)"
+        required: true
+        type: string
+      commit:
+        description: "Exact verified main commit SHA"
+        required: true
+        type: string
+permissions: {}
+jobs:
+  tag:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+        env:
+          EXPECTED_VERSION: ${{ inputs.version }}
+          EXPECTED_SHA: ${{ inputs.commit }}
+        with:
+          script: |
+            const fs = require('node:fs');
+            const metadata = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            const { default: tagRelease } = await import(process.env.GITHUB_WORKSPACE + '/scripts/tag-release.mjs');
+            await tagRelease({ github, context, core, metadata, expectedVersion: process.env.EXPECTED_VERSION, expectedSha: process.env.EXPECTED_SHA });

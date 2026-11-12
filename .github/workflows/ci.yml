@@ -26,6 +26,8 @@ jobs:
           printf '%s\n' '{"executionProfile":"managed-linux"}' > .sites-runtime/execution-profile.json
       - run: npm run install:ci
       - run: npm test
+      - name: Test guarded release tagging
+        run: node --test scripts/tag-release.test.mjs
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run build
