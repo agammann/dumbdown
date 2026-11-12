@@ -8,10 +8,10 @@ function fixture() {
   const created = [];
   let main = sha, tag = null, release = false, runs = [{ id: 1, path: ".github/workflows/ci.yml", head_sha: sha, head_branch: "main", event: "push", status: "completed", conclusion: "success" }];
   let jobs = [{ name: "verify", status: "completed", conclusion: "success" }];
-  const github = { rest: {
+  const github = { paginate: async () => release ? [{ tag_name: "v1.0.3", draft: true }] : [], rest: {
     repos: {
       getBranch: async () => ({ data: { commit: { sha: main } } }),
-      getReleaseByTag: async () => { if (!release) throw missing(); return { data: {} }; },
+      listReleases: async () => { throw new Error("must use pagination"); },
     },
     actions: {
       listWorkflowRuns: async () => ({ data: { workflow_runs: runs } }),
