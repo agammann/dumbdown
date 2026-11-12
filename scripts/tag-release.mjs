@@ -33,11 +33,9 @@ export default async function tagRelease({ github, context, core, expectedVersio
     }
   }
   if (!verified) throw new Error("No successful main push verification for this exact commit.");
-  try {
-    await github.rest.repos.getReleaseByTag({ owner, repo, tag });
+  const releases = await github.paginate(github.rest.repos.listReleases, { owner, repo, per_page: 100 });
+  if (releases.some((release) => release.tag_name === tag)) {
     throw new Error("A release already exists for this version.");
-  } catch (error) {
-    if (error.status !== 404) throw error;
   }
   try {
     await github.rest.git.getRef({ owner, repo, ref: "tags/" + tag });
