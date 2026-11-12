@@ -51,5 +51,6 @@ export default async function tagRelease({ github, context, core, expectedVersio
   if (created.type !== "commit" || created.sha !== expectedSha) {
     throw new Error("Created tag did not resolve to the requested commit.");
   }
+  await requireMain();
   core.info("Created " + tag + " at " + expectedSha + ". Run Verify manually on main to publish.");
 }
