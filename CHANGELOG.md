@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3
+
+Update locked Hono server, esbuild and lint dependencies to their compatible maintenance versions.
+
 ## 1.0.2
 
 Refresh a locked server dependency to its compatible maintenance release.
