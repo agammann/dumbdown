@@ -57,3 +57,9 @@ test("rejects a main change immediately before creation", async () => {
   f.args.github.rest.repos.getBranch = async () => ({data: {commit: {sha: ++calls === 1 ? sha : "b".repeat(40)}}});
   await assert.rejects(tagRelease(f.args)); assert.equal(f.created.length, 0);
 });
+
+test("reports main drift after creation without deleting or moving the tag", async () => {
+  const f = fixture(); let calls = 0;
+  f.args.github.rest.repos.getBranch = async () => ({data: {commit: {sha: ++calls <= 2 ? sha : "b".repeat(40)}}});
+  await assert.rejects(tagRelease(f.args)); assert.equal(f.created.length, 1);
+});
