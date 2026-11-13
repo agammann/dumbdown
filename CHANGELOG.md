@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4
+
+Include the patched Hono 4.13.18 dependency in the source release and update ESLint to the compatible 9.39.5 maintenance version. Keep the existing lint rules and verification gates.
+
 ## 1.0.3
 
 Update locked Hono server, esbuild and lint dependencies to their compatible maintenance versions.
