@@ -27,7 +27,7 @@ The browser app does not save source, keys or explanations in browser storage or
 
 ## Install the source
 
-Use Node.js **24** and npm. Download `dumbdown_1.0.4_source.zip` and `SHA256SUMS` from Releases, verify the ZIP's SHA256, and extract it into a new folder. On Windows:
+The published v1.0.4 source archive was verified with Node.js **24** and npm. The current development checkout additionally supports Node 26.13.1+ within Node 26; its supported Node 24 range is 24.x. Other major versions are outside the current checkout's verified range. Download `dumbdown_1.0.4_source.zip` and `SHA256SUMS` from Releases, verify the ZIP's SHA256, and extract it into a new folder. On Windows:
 
 ```powershell
 Get-FileHash .\dumbdown_1.0.4_source.zip -Algorithm SHA256
@@ -101,7 +101,7 @@ Browser regression checks intercept synthetic hosted responses and make no paid 
 
 Save original source and exports before upgrading. Extract each release separately, install its locked dependencies, then copy only your retained private `.env.local` if needed. A browser reload restores the sample rather than recovering unsaved work. A failed retry labels the previous result. [Stability and recovery](docs/STABILITY.md) explains cancellation, device requirements and configuration.
 
-From a clean committed source tree, `npm run package:source` creates the ZIP and checksum files. Main's passing workflow publishes those checked bytes and preserves older releases.
+From a clean committed source tree, `npm run package:source` creates the ZIP and checksum files. A main push runs verification only; publishing and release tagging require separate manual workflows.
 
 ## License
 

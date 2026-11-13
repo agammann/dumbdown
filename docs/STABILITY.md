@@ -1,6 +1,6 @@
 # Version 1 support and recovery
 
-The supported source environment is Node.js 24 with npm, on Windows x64 and Linux. The release verification records the exact tested versions. The web app's ordinary controls work without native WebMCP. Its native tool requires experimental browser support; it uses the selected mode and the same visible explanation.
+The published v1.0.4 source archive was verified with Node.js 24 and npm on Windows x64 and Linux. The current development checkout supports Node 24.x or Node 26.13.1+ within Node 26; its exact runtime and platform checks are recorded separately. The web app's ordinary controls work without native WebMCP. Its native tool requires experimental browser support; it uses the selected mode and the same visible explanation.
 
 Optional hosted web explanations and the CLI/stdio adapters use your own OpenAI API key and API credit. GPT-5.4 is the tested model. The Node adapters accept an explicit `OPENAI_MODEL` override, but another model is outside the tested v1 scope. The public site never substitutes an operator key for a visitor key.
 

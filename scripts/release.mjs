@@ -141,7 +141,7 @@ const publish = async ({ github, context, core }) => {
   const notes = changelog.split(heading)[1].split("\n## ")[0].trim();
   const body =
     notes +
-    "\n\nDownload the source ZIP, verify SHA256SUMS, extract it, and run npm ci followed by npm run dev. Use Node.js 24. The MIT license and exact dependency lockfile are included. Browser state is not saved automatically. Use your own API key for GPT-5.4 explanations; device models remain experimental and need WebGPU. The source includes CLI and stdio adapters.\n\n" +
+    "\n\nDownload the source ZIP, verify SHA256SUMS, extract it, and run npm ci followed by npm run dev. Use Node.js 24.x or Node 26.13.1+ within Node 26. The MIT license and exact dependency lockfile are included. Browser state is not saved automatically. Use your own API key for GPT-5.4 explanations; device models remain experimental and need WebGPU. The source includes CLI and stdio adapters.\n\n" +
     "[Installation, upgrade and recovery](https://github.com/" +
     owner +
     "/" +
