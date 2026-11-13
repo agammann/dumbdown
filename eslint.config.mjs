@@ -1,10 +1,20 @@
 import { defineConfig, globalIgnores } from "eslint/config";
-import react from "eslint-plugin-react";
+import react from "./vendor/eslint-plugin-react-compat/index.cjs";
 import reactHooks from "eslint-plugin-react-hooks";
-import importPlugin from "eslint-plugin-import";
-import jsxA11y from "eslint-plugin-jsx-a11y";
+import importPlugin from "eslint-plugin-import-x";
+import jsxA11yUpstream from "eslint-plugin-jsx-a11y-x";
 import globals from "globals";
 import tseslint from "typescript-eslint";
+
+// Original rules accepted one unused object option; keep inline configurations valid.
+const legacyA11yObjects = ["aria-props", "aria-proptypes", "aria-unsupported-elements", "role-has-required-aria-props", "role-supports-aria-props"];
+const jsxA11y = {
+  ...jsxA11yUpstream,
+  rules: { ...jsxA11yUpstream.rules, ...Object.fromEntries(legacyA11yObjects.map((name) => {
+    const rule = jsxA11yUpstream.rules[name];
+    return [name, { ...rule, meta: { ...rule.meta, schema: [{ type: "object", properties: {} }] } }];
+  })) },
+};
 
 const eslintConfig = defineConfig([
   {
@@ -56,7 +66,7 @@ const eslintConfig = defineConfig([
       "@typescript-eslint/no-unused-expressions": "warn",
     },
   },
-  globalIgnores(["dist/**", ".sites-runtime/**", ".wrangler/**", "out/**"]),
+  globalIgnores(["dist/**", ".sites-runtime/**", ".wrangler/**", "out/**", "vendor/eslint-plugin-react-compat/**"]),
   {
     files: ["components/ui/**/*.{ts,tsx}", "hooks/use-mobile.ts"],
     rules: {
