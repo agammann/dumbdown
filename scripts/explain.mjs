@@ -1,6 +1,7 @@
 import { fileURLToPath } from "node:url";
 import { explain, toMarkdown } from "../lib/explainer.mjs";
 import { readLocalSource } from "../lib/local-source.mjs";
+import metadata from "../package.json" with { type: "json" };
 try {
   process.loadEnvFile(fileURLToPath(new URL("../.env.local", import.meta.url)));
 } catch (e) {
@@ -10,7 +11,7 @@ const [filename, kind = "code", level = "beginner"] = process.argv.slice(2);
 if (filename === "--help" || filename === "-h") {
   console.log("Usage: npm run explain -- path/to/file [code|documentation] [beginner|intermediate|advanced]\nUses your OPENAI_API_KEY and API credits; default model GPT-5.4. Source is never executed. Redirect stdout to save Markdown.");
 } else if (filename === "--version") {
-  console.log("dumbdown 1.0.4");
+  console.log(`dumbdown ${metadata.version}`);
 } else if (!filename) {
   console.error(
     "Usage: npm run explain -- path/to/file [code|documentation] [beginner|intermediate|advanced]",

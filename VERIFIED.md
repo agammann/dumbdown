@@ -1,5 +1,15 @@
 # Verification
 
+## November 17, 2026 — source candidate checks
+
+Windows checks used the exact Node 24.0.0 and 26.13.1 workflow floors with their bundled npm versions. Frozen installations, tests, TypeScript, lint and production builds passed. The 1.0.5 source candidate updates Vite to 8.3.8 with Rolldown 1.2.19 and preserves the native Linux libc constraints. Its local stdio argument ceiling is 32 elements for a tool with three scalar inputs. CLI and MCP versions come from the package metadata.
+
+The ordinary and genuine native browser fixtures passed ten and eleven grouped checks. Native discovery reported readOnlyHint false, consequentialHint true and untrustedContentHint true. These fixtures intercepted hosted responses and made no paid request. The separate compiled-preview browser check verified the same native flags, matching missing-key errors, the labeled sample Markdown download and reload.
+
+The first real public Qwen 3 1.7B run on the default-sort example rendered and exported an incorrect explanation. It claimed `[1, 2, 10]` and false reference identity, while the separately checked source yields `[1, 10, 2]` and true. The native caller timed out while the page continued to generate. The first result was retained without a model retry. Device mode remains experimental, and each explanation needs source review.
+
+The required full audit remains blocked by the Picomatch advisory. The registry reports 4.0.7 as latest and returns 404 for 4.0.8. The official advisory lists no patched version. Version 1.0.5 is unpublished, and the available source release remains 1.0.4. The October provider/model observations below remain historical.
+
 ## October 7, 2026 — version 1 source checks
 
 The initial browser choice is now GPT-5.4 hosted mode. Opening the page does not send an explanation request: a visitor key, explicit consent and a submitted button/tool action are required. The CLI and stdio MCP server use the same instructions and GPT-5.4 default. Local model choices remain experimental.

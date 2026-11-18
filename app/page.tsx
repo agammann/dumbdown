@@ -132,8 +132,8 @@ export default function Home() {
           inputSchema,
           annotations: {
             readOnlyHint: false,
-            destructiveHint: false,
-            openWorldHint: false,
+            consequentialHint: true,
+            untrustedContentHint: true,
           },
           execute: async (input) => {
             try {

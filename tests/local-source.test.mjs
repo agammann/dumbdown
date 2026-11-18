@@ -4,6 +4,14 @@ import { mkdtempSync, writeFileSync, symlinkSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { readLocalSource } from "../lib/local-source.mjs";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import metadata from "../package.json" with { type: "json" };
+
+test("CLI reports the installed package version without a provider request", () => {
+  const output = execFileSync(process.execPath, [fileURLToPath(new URL("../scripts/explain.mjs", import.meta.url)), "--version"], { encoding: "utf8", windowsHide: true });
+  assert.equal(output.trim(), `dumbdown ${metadata.version}`);
+});
 
 test("local source reader preserves a selected file and caps the opened descriptor", async () => {
   const directory = mkdtempSync(path.join(tmpdir(), "dumbdown-source-"));

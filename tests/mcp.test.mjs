@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { fileURLToPath } from "node:url";
+import metadata from "../package.json" with { type: "json" };
 test("real stdio MCP handshake, discovery, and validation error without a paid call", async () => {
   const client = new Client({ name: "dumbdown-test", version: "1.0.0" });
   const transport = new StdioClientTransport({
@@ -29,7 +30,7 @@ test("real stdio MCP handshake, discovery, and validation error without a paid c
   }
 });
 
-test("Zod upgrade preserves MCP schema discovery and rejects invalid inputs before a provider call", async () => {
+test("Zod upgrade preserves MCP schema discovery and rejects invalid inputs before a provider call", async (t) => {
   const client = new Client({ name: "dumbdown-schema-test", version: "1.0.0" });
   const transport = new StdioClientTransport({
     command: process.execPath,
@@ -40,6 +41,22 @@ test("Zod upgrade preserves MCP schema discovery and rejects invalid inputs befo
   try {
     await client.connect(transport);
     const { tools } = await client.listTools();
+    assert.equal(client.getServerVersion().version, metadata.version);
+    await t.test("declares the external paid request as a non-read-only operation", () => {
+      assert.equal(tools[0].annotations.readOnlyHint, false);
+      assert.equal(tools[0].annotations.openWorldHint, true);
+    });
+    await t.test("bounds argument elements before schema validation", async () => {
+      const args = { source: "", kind: "code", level: "beginner" };
+      for (let i = 0; i < 29; i++) args[`extra${i}`] = i;
+      const atLimit = await client.callTool({ name: "dumbdown_explain", arguments: args });
+      assert.equal(atLimit.isError, true);
+      assert.match(atLimit.content[0].text, /Input validation error/);
+      args.extra29 = 29;
+      const overLimit = await client.callTool({ name: "dumbdown_explain", arguments: args });
+      assert.equal(overLimit.isError, true);
+      assert.match(overLimit.content[0].text, /more than the maximum of 32 elements/);
+    });
     const schema = tools[0].inputSchema;
     assert.equal(schema.properties.source.minLength, 1);
     assert.equal(schema.properties.source.maxLength, 12000);
