@@ -1,6 +1,8 @@
 # Changelog
 
-## 1.0.5 (unreleased)
+Version 1.0.5 remains an unpublished source candidate.
+
+## 1.0.5
 
 - Update Vite to 8.3.8 and its supported Rolldown dependency for the [upstream development-server advisory](https://github.com/vitejs/vite/security/advisories/GHSA-p4f5-76q4-ffq7).
 - Mark native explanations as consequential operations with untrusted generated output. Keep the local stdio provider call explicitly non-read-only.
