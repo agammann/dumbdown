@@ -4,7 +4,7 @@ Less jargon. More understanding. Explain code or technical documentation with a 
 
 [Open dumbdown](https://dumbdown.alx21.chatgpt.site) · [Download v1 source](https://github.com/agammann/dumbdown/releases/tag/v1.0.4) · [Verification](VERIFIED.md)
 
-Version 1.0.5 is an unpublished source candidate. The available release remains 1.0.4. The required full dependency audit currently blocks publication on the unresolved Picomatch advisory.
+Version 1.0.5 is an unpublished source candidate. Version 1.0.4 is the available source release.
 
 ## Start in the browser
 

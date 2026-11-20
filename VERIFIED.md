@@ -8,7 +8,11 @@ The ordinary and genuine native browser fixtures passed ten and eleven grouped c
 
 The first real public Qwen 3 1.7B run on the default-sort example rendered and exported an incorrect explanation. It claimed `[1, 2, 10]` and false reference identity, while the separately checked source yields `[1, 10, 2]` and true. The native caller timed out while the page continued to generate. The first result was retained without a model retry. Device mode remains experimental, and each explanation needs source review.
 
-The required full audit remains blocked by the Picomatch advisory. The registry reports 4.0.7 as latest and returns 404 for 4.0.8. The official advisory lists no patched version. Version 1.0.5 is unpublished, and the available source release remains 1.0.4. The October provider/model observations below remain historical.
+At the November 17 check, the required full audit failed on the Picomatch advisory. The registry reported 4.0.7 as latest and returned 404 for 4.0.8. The advisory listed no patched version at that check. The October provider and model observations below are historical.
+
+## November 19, 2026 dependency audit recheck
+
+GitHub withdrew the Picomatch advisory on November 18. The required dependency audit reported zero advisories on the candidate lockfile when rerun on November 19. The source candidate remains a draft. [Advisory record](https://github.com/advisories/GHSA-fc5q-39xc-vjpf)
 
 ## October 7, 2026 — version 1 source checks
 
