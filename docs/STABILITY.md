@@ -2,6 +2,8 @@
 
 The published v1.0.4 source archive was verified with Node.js 24 and npm on Windows x64 and Linux. The current development checkout supports Node 24.x or Node 26.13.1+ within Node 26; its exact runtime and platform checks are recorded separately. The web app's ordinary controls work without native WebMCP. Its native tool requires experimental browser support; it uses the selected mode and the same visible explanation.
 
+The unpublished 1.0.5 source candidate identifies native explanations as consequential operations with untrusted generated output. The local stdio tool accepts three scalar inputs under a 32-element ceiling and identifies external provider use through its metadata and description.
+
 Optional hosted web explanations and the CLI/stdio adapters use your own OpenAI API key and API credit. GPT-5.4 is the tested model. The Node adapters accept an explicit `OPENAI_MODEL` override, but another model is outside the tested v1 scope. The public site never substitutes an operator key for a visitor key.
 
 Device mode is an experiment with separately downloaded WebGPU models. Loading and cancellation can work while an explanation is factually wrong. Check the reading level and every claim against the original snippet. Model and browser caches can be cleared through browser settings; they do not contain a saved explanation history created by the app.

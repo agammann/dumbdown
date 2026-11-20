@@ -3,12 +3,16 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { fileURLToPath } from "node:url";
 import { explain, toMarkdown } from "../lib/explainer.mjs";
+import metadata from "../package.json" with { type: "json" };
 try {
   process.loadEnvFile(fileURLToPath(new URL("../.env.local", import.meta.url)));
 } catch (e) {
   if (e.code !== "ENOENT") throw e;
 }
-const server = new McpServer({ name: "dumbdown", version: "1.0.4" });
+const server = new McpServer(
+  { name: "dumbdown", version: metadata.version },
+  { maxToolInputElements: 32 },
+);
 server.registerTool(
   "dumbdown_explain",
   {
@@ -21,7 +25,7 @@ server.registerTool(
       level: z.enum(["beginner", "intermediate", "advanced"]),
     },
     annotations: {
-      readOnlyHint: true,
+      readOnlyHint: false,
       destructiveHint: false,
       openWorldHint: true,
     },

@@ -4,6 +4,8 @@ Less jargon. More understanding. Explain code or technical documentation with a 
 
 [Open dumbdown](https://dumbdown.alx21.chatgpt.site) · [Download v1 source](https://github.com/agammann/dumbdown/releases/tag/v1.0.4) · [Verification](VERIFIED.md)
 
+Version 1.0.5 is an unpublished source candidate. Version 1.0.4 is the available source release.
+
 ## Start in the browser
 
 1. Open the site and try the included debounce example, or paste a nonprivate snippet. The initial explanation is a labeled, hand-written sample.

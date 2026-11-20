@@ -1,5 +1,14 @@
 # Changelog
 
+Version 1.0.5 remains an unpublished source candidate.
+
+## 1.0.5
+
+- Update Vite to 8.3.8 and its supported Rolldown dependency for the [upstream development-server advisory](https://github.com/vitejs/vite/security/advisories/GHSA-p4f5-76q4-ffq7).
+- Mark native explanations as consequential operations with untrusted generated output. Keep the local stdio provider call explicitly non-read-only.
+- Bound local stdio arguments to 32 elements and derive CLI/MCP version reporting from the source package.
+- Align contributor prerequisites with the supported Node 24 and Node 26 ranges.
+
 ## 1.0.4
 
 Include the patched Hono 4.13.18 dependency in the source release and update ESLint to the compatible 9.39.5 maintenance version. Keep the existing lint rules and verification gates.
